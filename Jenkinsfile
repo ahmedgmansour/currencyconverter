@@ -5,9 +5,9 @@ pipeline {
         DOCKERHUB_TOKEN = credentials('dockerhub-token')
     }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'main', url: 'https://github.com/ahmedgmansour/currencyconverter.git'
             }
         }
         stage('Login to DockerHub') {
@@ -20,8 +20,8 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 sh """
-                docker build -t mabusaa/argocd-course-webapp:${env.GIT_COMMIT} -f WebApplication1/Dockerfile .
-                docker push mabusaa/argocd-course-webapp:${env.GIT_COMMIT}
+                docker build -t ahmedgmansour/currencyconverter .
+                docker push ahmedgmansour/currencyconverter:latest
                 """
             }
         }
